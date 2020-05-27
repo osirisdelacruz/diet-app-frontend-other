@@ -1,0 +1,4 @@
+.v-list__tile--active{
+    color: white !important;   
+    font-weight: bold;
+}

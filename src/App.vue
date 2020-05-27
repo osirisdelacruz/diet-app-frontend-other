@@ -1,31 +1,48 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <v-app :class="`${this.$router.currentRoute.name}-box`">
+    <TheNav v-if="$session.exists()"/>
+    <v-content>
+      <ModalLoading :show="GET_LOADER"/>
+      <ModalAlert :settings="GET_MODAL_ALERT_SETTINGS" />
+      <ModalConfirm :settings="GET_MODAL_CONFIRM_SETTINGS" />
+      <v-container fluid class="the-container">
+        <transition name="fade" mode="out-in">
+          <router-view/>
+        </transition>
+      </v-container>
+    </v-content>
+  </v-app>
 </template>
 
+<script>
+import TheNav from "./components/layouts/TheNav";
+import { mapGetters } from "vuex";
+
+export default {
+  name: "App",
+  components: {
+    TheNav
+  },
+  data() {
+    return {
+      //
+    };
+  },
+  computed: {
+    ...mapGetters(['GET_LOADER', 'GET_MODAL_ALERT_SETTINGS'])
+  },
+  created() {}
+};
+</script>
+
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+.login-box .the-container {
+  height: 100%;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 </style>
